@@ -3,14 +3,55 @@
 body { margin: 0; }
 button, input { border: 0; border-radius: 0; font: inherit; }
 button { cursor: pointer; }
-main { min-height: 100vh; padding: clamp(1rem, 3vw, 3rem); }
+main { min-height: 100dvh; padding: clamp(1rem, 3vw, 3rem); }
 header { border: 2px solid #111; padding: 1rem; }
-.eyebrow, label { font: 700 .75rem/1.2 monospace; letter-spacing: .08em; }
-h1 { margin: 2rem 0 0; font-size: clamp(4rem, 12vw, 11rem); line-height: .82; letter-spacing: -.06em; }
+.eyebrow, label, .condition { font: 700 .75rem/1.2 monospace; letter-spacing: .08em; }
+h1 { max-width: 8ch; margin: 2rem 0 0; font-size: clamp(4rem, 12vw, 11rem); line-height: .82; letter-spacing: -.06em; }
 .search { display: grid; grid-template-columns: auto 1fr auto; border: 2px solid #111; border-top: 0; }
 .search > * { padding: 1rem; }
-.search input { min-width: 0; border-inline: 2px solid #111; background: transparent; }
+.search input { min-width: 0; border-inline: 2px solid #111; color: #111; background: transparent; }
+.search input::placeholder { color: #595955; }
 .search button { color: #f4f4f0; background: #111; font-weight: 800; }
 .search button:hover, .search button:focus-visible { background: #e61919; }
 :focus-visible { outline: 3px solid #e61919; outline-offset: -3px; }
-@media (max-width: 600px) { .search { grid-template-columns: 1fr; } .search input { border: 0; border-block: 2px solid #111; } }
+.status { min-height: 3rem; border-inline: 2px solid #111; padding: 1rem; font: 700 .75rem monospace; }
+.error { color: #e61919; }
+.dashboard { border: 2px solid #111; animation: enter .25s ease-out; }
+.location-bar, .timeline-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem; border-bottom: 2px solid #111; }
+.location-bar h2 { max-width: 20ch; margin: 0; overflow-wrap: anywhere; font-size: clamp(1.5rem, 4vw, 4rem); line-height: .9; text-transform: uppercase; }
+.condition { margin: 0 0 .75rem; color: #e61919; }
+.refresh { flex: 0 0 auto; padding: .8rem 1rem; color: #f4f4f0; background: #111; font-weight: 800; }
+.refresh:hover, .refresh:focus-visible { background: #e61919; }
+.summary { display: grid; grid-template-columns: 2fr repeat(3, 1fr); margin: 0; }
+.metric { min-width: 0; min-height: 10rem; padding: 1rem; border-right: 2px solid #111; }
+.metric:last-child { border: 0; }
+.metric dt { font: 700 .7rem monospace; letter-spacing: .08em; }
+.metric dd { margin: 1rem 0 0; overflow-wrap: anywhere; font: 800 clamp(1.5rem, 4vw, 4rem)/.9 Arial, sans-serif; }
+.metric small { font: 700 .65rem monospace; }
+.metric .update-time { font-size: clamp(1rem, 2.3vw, 2rem); line-height: 1; }
+.timeline-head { border-top: 2px solid #111; font: 700 .75rem monospace; }
+.timeline-head h3 { margin: 0; font: inherit; }
+.timeline { display: flex; margin: 0; padding: 0; overflow-x: auto; list-style: none; border-top: 2px solid #111; }
+.hour { flex: 0 0 9rem; min-height: 14rem; padding: 1rem; border-right: 1px solid #111; font-family: monospace; }
+.hour[aria-current="time"] { color: #f4f4f0; background: #e61919; }
+.hour strong { display: block; margin: 2rem 0 .5rem; font: 800 2rem Arial, sans-serif; }
+.hour > span { display: block; min-height: 3rem; }
+.hour dl { margin: 1rem 0 0; font-size: .7rem; }
+.hour dl div { display: flex; justify-content: space-between; gap: .5rem; }
+.hour dd { margin: 0; text-align: right; }
+button:disabled { cursor: wait; opacity: .55; }
+@keyframes enter { from { opacity: 0; transform: translateY(8px); } }
+@media (max-width: 800px) {
+  .summary { grid-template-columns: 1fr 1fr; }
+  .metric:nth-child(2) { border-right: 0; }
+  .metric:nth-child(-n+2) { border-bottom: 2px solid #111; }
+}
+@media (max-width: 600px) {
+  h1 { font-size: clamp(3.4rem, 19vw, 6rem); }
+  .search { grid-template-columns: 1fr; }
+  .search input { border: 0; border-block: 2px solid #111; }
+  .location-bar { align-items: flex-start; flex-direction: column; }
+  .refresh { width: 100%; }
+  .timeline-head { align-items: flex-start; flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

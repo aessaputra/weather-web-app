@@ -10,7 +10,7 @@ h1 { max-width: 8ch; margin: 2rem 0 0; font-size: clamp(4rem, 12vw, 11rem); line
 .search { display: grid; grid-template-columns: auto 1fr auto; border: 2px solid #111; border-top: 0; }
 .search > * { padding: 1rem; }
 .search input { min-width: 0; border-inline: 2px solid #111; color: #111; background: transparent; }
-.search input::placeholder { color: #595955; }
+.search input::placeholder { color: #111; opacity: .6; }
 .search button { color: #f4f4f0; background: #111; font-weight: 800; }
 .search button:hover, .search button:focus-visible { background: #e61919; }
 :focus-visible { outline: 3px solid #e61919; outline-offset: -3px; }

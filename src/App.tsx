@@ -1,5 +1,5 @@
 import { type FormEvent, useRef, useState } from 'react'
-import { selectHourlyWindow, type Hour, type WeatherResponse } from './weather'
+import { isWeatherResponse, selectHourlyWindow, type Hour, type WeatherResponse } from './weather'
 import './styles.css'
 
 type Weather = WeatherResponse & { hours: Hour[] }
@@ -53,21 +53,21 @@ export default function App() {
       const base = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encoded}`
       const probe = await fetch(`${base}?${options}`, { signal: controller.signal })
       if (!probe.ok) throw new Error(messageFor(probe))
-      const current = await probe.json() as WeatherResponse
-      if (!current.currentConditions || !current.timezone) throw new Error('Weather service returned invalid data.')
+      const current: unknown = await probe.json().catch(() => null)
+      if (!isWeatherResponse(current)) throw new Error('Weather service returned invalid data.')
 
       const now = current.currentConditions.datetimeEpoch
       const [start, end] = dateRange(now, current.timezone)
       const response = await fetch(`${base}/${start}/${end}?${options}`, { signal: controller.signal })
       if (!response.ok) throw new Error(messageFor(response))
-      const data = await response.json() as WeatherResponse
-      if (!data.currentConditions || !Array.isArray(data.days)) throw new Error('Weather service returned invalid data.')
+      const data: unknown = await response.json().catch(() => null)
+      if (!isWeatherResponse(data)) throw new Error('Weather service returned invalid data.')
 
       const hours = selectHourlyWindow(data.days.flatMap(({ hours }) => hours), data.currentConditions.datetimeEpoch)
       setWeather({ ...data, hours })
       setLastLocation(query.trim())
     } catch (cause) {
-      if (!(cause instanceof DOMException && cause.name === 'AbortError')) {
+      if (request.current === controller && !(cause instanceof DOMException && cause.name === 'AbortError')) {
         setError(cause instanceof Error ? cause.message : 'Could not load weather.')
       }
     } finally {

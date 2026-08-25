@@ -2,6 +2,10 @@
 
 A responsive weather dashboard for searching locations and viewing current conditions alongside a 48-hour timeline. Built with React, TypeScript, and Vite, using data from the [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api/).
 
+Built as part of the [Weather Web App project](https://roadmap.sh/projects/weather-app) from roadmap.sh.
+
+![Weather Outlook dashboard](docs/assets/screen.png)
+
 ## Features
 
 - Search by city or location

@@ -98,6 +98,7 @@ export default function App() {
           required
           placeholder="JAKARTA"
           autoComplete="address-level2"
+          disabled={loading}
           value={location}
           onChange={({ target }) => setLocation(target.value)}
         />
